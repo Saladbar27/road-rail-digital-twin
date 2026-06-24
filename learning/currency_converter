@@ -1,0 +1,28 @@
+starting_currency = input("Enter the starting currency (USD, EUR, GBP):").upper()
+starting_amount = float(input("Enter the amount in "+ starting_currency + ":"))
+desired_currency = input("Enter the desired currency (USD, EUR, GBP):").upper()
+
+if starting_currency == "USD" and desired_currency == "EUR":
+    conversion_rate = 0.85
+    new_amount = starting_amount * conversion_rate
+elif starting_currency == "USD" and desired_currency == "GBP":
+    conversion_rate = 0.75
+    new_amount = starting_amount * conversion_rate
+elif starting_currency == "EUR" and desired_currency == "USD":
+    conversion_rate = 1.18
+    new_amount = starting_amount * conversion_rate
+elif starting_currency == "EUR" and desired_currency == "GBP":
+    conversion_rate = 0.88
+    new_amount = starting_amount * conversion_rate
+elif starting_currency == "GBP" and desired_currency == "USD":
+    conversion_rate = 1.33
+    new_amount = starting_amount * conversion_rate
+elif starting_currency == "GBP" and desired_currency == "EUR":
+    conversion_rate = 1.14
+    new_amount = starting_amount * conversion_rate
+else:
+    print("Invalid currency conversion.")
+    exit()
+
+print(f"{starting_amount:.2f} {starting_currency} is equal to {new_amount:.2f} {desired_currency}")
+print(f"Conversion rate from {starting_currency} to {desired_currency} is {conversion_rate:.2f}")
