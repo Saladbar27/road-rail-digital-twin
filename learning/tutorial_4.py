@@ -36,9 +36,16 @@
 # Uses could be to test if a value is a part of a set or to remove duplicate values
 # .intersection(set) returns the common values between two sets
 # .difference(set) returns the values that are in one set but not the other
+# .union(set) returns all the values from both sets, but no duplicates
 
-# Sets
-cs_courses = {'History', 'Math', 'Physics', 'CompSci'}
-art_courses = {'History', 'Math', 'Art', 'Design'}
+# Empty Lists
+empty_list = []
+empty_list = list()
 
-print(cs_courses.union(art_courses))
+# Empty Tuples
+empty_tuple = ()
+empty_tuple = tuple()
+
+# Empty Sets
+empty_set = {} # This isn't right! It creates an empty Dictionary.
+empty_set = set()
