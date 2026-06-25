@@ -28,6 +28,8 @@
 # Returns BOOLEAN Values (True or False)
 
 # casting: turning variables from str to int, or one form to another
+# num_1 = '100'
+# num_1 = int(num_1), now an integer 
 
 num_1 = '100'
 num_2 = '200'
