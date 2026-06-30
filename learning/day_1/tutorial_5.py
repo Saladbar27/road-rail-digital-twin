@@ -12,8 +12,11 @@
 # .values() method returns a list of all the values in a dictionary
 # .items() method returns a list of all the key-value pairs in a dictionary as tuples
 
+print()
 
 student = {'name': 'John', 'age': 25, 'courses': ['Math', 'CompSci']}
 
 for key, value in student.items():
     print(key, value)
+
+print()

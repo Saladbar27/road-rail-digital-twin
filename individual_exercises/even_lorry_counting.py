@@ -9,3 +9,5 @@ while lorry < 20:
         print(f"HGV {lorry} requires inspection.")
     else:
         break
+
+

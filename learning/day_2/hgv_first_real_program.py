@@ -38,14 +38,17 @@ hgv_count = 10
 for hgv in range(1, hgv_count + 1):
     hgv_id = random.randint(1000, 9999)
     print('HGV', hgv_id)
+    
     if hgv % 3 == 0:
         print('Signal: None')
         print('Twin Status: Unavailable')
         print()
+
     elif hgv % 2 == 0:
         print('Signal: Patchy')
         print('Twin Status: Updates Delayed')
         print()
+
     else:
         print('Signal: Good')
         print('Twin Status: Receiving Updates')
