@@ -3,7 +3,10 @@ import random
 
 print()
 
+# Number of HGVs in the Simulation
 hgv_count = 10
+
+# The number of minutes at which the information age is considered too old to be reliable
 freshness_threshold = 5
 
 # Empty Dictionary that will later store information on each HGV
@@ -17,9 +20,19 @@ def generate_information_age():
     """Generates a random value for the HGV Information Age, 0 - 10 minutes"""
     return random.randint(0, 10)
 
+# def generate_arrival_time():
+#     """Generates a random value for the HGV Arrival Time, 0 - 360 minutes"""
+#     time_in_minutes = random.randint(0, 360)
+#     hours = time_in_minutes // 60
+#     minutes = time_in_minutes % 60
+#     return "%02d:%02d" % (hours, minutes)
+
 def generate_arrival_time():
-    """Generates a random value for the HGV Arrival Time, 0 - 360 minutes"""
-    time_in_minutes = random.randint(0, 360)
+    """Generates ETA in minutes, 0 - 360 minutes"""
+    return random.randint(0, 360)
+
+def format_arrival_time(time_in_minutes):
+    """Formats the arrival time as HH:MM"""
     hours = time_in_minutes // 60
     minutes = time_in_minutes % 60
     return "%02d:%02d" % (hours, minutes)
@@ -43,10 +56,13 @@ def determine_twin_status(hgv):
     else:
         return 'Receiving Updates'
     
-def determine_hgv_decision(hgv, information_age):
+def determine_hgv_decision(hgv, information_age, eta_minutes):
     """Determines the action the twin should take based on signal zone."""
     signal_zone = determine_signal_zone(hgv)
-    if signal_zone == 'None' or information_age > freshness_threshold:
+
+    if information_age > freshness_threshold and eta_minutes < 30:
+        return 'High Priority Review'
+    elif signal_zone == 'None' or information_age > freshness_threshold:
         return 'Delay Assignment'
     elif signal_zone == 'Patchy':
         return 'Monitor Closely'
@@ -57,7 +73,7 @@ def create_hgv_dict(hgv, hgv_id, information_age, arrival_time):
     """Creates a dictionary for the HGV including HGV ID, signal zone, and twin status"""
     signal_zone = determine_signal_zone(hgv)
     twin_status = determine_twin_status(hgv)
-    hgv_decision = determine_hgv_decision(hgv, information_age)
+    hgv_decision = determine_hgv_decision(hgv, information_age, arrival_time)
     hgv_dict = {
         'ID': hgv_id, 
         'Signal Zone': signal_zone, 
@@ -72,7 +88,7 @@ def display_hgv_information(hgv, hgv_id, information_age, arrival_time):
     """Displays the generated HGV ID, signal zone, twin status, and information age"""
     signal_zone = determine_signal_zone(hgv)
     twin_status = determine_twin_status(hgv)
-    hgv_decision = determine_hgv_decision(hgv, information_age)
+    hgv_decision = determine_hgv_decision(hgv, information_age, arrival_time)
     print(f'HGV {hgv_id}')
     print(f'Signal Zone: {signal_zone}')
     print(f'Twin Status: {twin_status}')
@@ -80,9 +96,10 @@ def display_hgv_information(hgv, hgv_id, information_age, arrival_time):
         print(f'Information Age: {information_age} minute')
     else:
         print(f'Information Age: {information_age} minutes')
-    print(f'ETA: {arrival_time}')
+    print(f'ETA: {format_arrival_time(arrival_time)}')
     print(f'HGV Decision: {hgv_decision}')
 
+# Main Program Loop
 for hgv in range(1, hgv_count + 1):
     hgv_id = generate_hgv_id()
     information_age = generate_information_age()
@@ -91,16 +108,19 @@ for hgv in range(1, hgv_count + 1):
     create_hgv_dict(hgv, hgv_id, information_age, arrival_time)
     print()
 
+# Displays all HGVs in the Lorries List
 for lorry in lorries:
     print(lorry)
     print()
 
+# Summary Statistics Variables
 good_signal_hgv = 0
 patchy_signal_hgv = 0
 no_signal_hgv = 0
 delayed_hgv = 0
 closely_monitored_hgv = 0
 continuing_normally_hgv = 0
+high_priority_review_hgv = 0
 
 # Summary Statistics
 for lorry in lorries:
@@ -120,12 +140,17 @@ for lorry in lorries:
         closely_monitored_hgv += 1
     elif hgv_decision == 'Continue Normally':
         continuing_normally_hgv += 1
+    elif hgv_decision == 'High Priority Review':
+        high_priority_review_hgv += 1
 
+# Variable to hold the total information age of all HGVs
 total_information_age = 0
 
+# Loop that updates the total information age variable with the information age of each HGV
 for lorry in lorries:
     total_information_age += lorry['Information Age']
 
+# Calculates the average information age for all HGVs
 average_information_age = total_information_age / hgv_count
 
 
@@ -137,8 +162,10 @@ def display_hgv_statistics():
     print(f'Number of HGVs Continued Normally: {continuing_normally_hgv}')
     print(f'Number of HGVs being Closely Monitored: {closely_monitored_hgv}')
     print(f'Number of Delayed HGVs: {delayed_hgv}')
+    print(f'Number of HGVs with High Priority Review: {high_priority_review_hgv}')
     print(f'Average Information Age: {average_information_age} minutes')
 
+# Runs the display_hgv_statistics function to show the summary statistics of the HGVs
 display_hgv_statistics()
 
 print()
